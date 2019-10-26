@@ -1,0 +1,181 @@
+PUSH AND POP
+
+#include <iostream>
+#include<string>
+#include <iomanip>
+#include<fstream>
+#include "HeaderPP.h"
+using namespace std;
+
+
+
+
+////////
+int display_menu()
+{
+	int op;
+
+	cout << endl << endl;
+	cout << " 1. Display Stack " << endl;
+	cout << " 2. Push " << endl;
+	cout << " 3. Pop  " << endl;
+	cout << " 4. Exit " << endl;
+	//cout << " 5. Add a empoyee" << endl;
+	cout << " Please enter selection" << endl;
+	cin >> op;
+
+	return op;
+}
+void Display_Stack(Employee *Top)
+{
+	while (Top != NULL)
+	{
+		cout << Top->first_name() << endl;
+		cout << Top->last_name() << endl;
+		cout << Top->salary() << endl;
+		cout << endl << endl;
+
+		Top = Top->nxt_ptr;
+	}
+}
+void Pop(Employee *&Top)
+{
+	Employee *p;
+	if (Top == NULL) {
+		cout << "Stack is empty!!";
+	}
+	else {
+		//	cout << "Deleted element is " << Top->nxt_ptr;
+		p = Top;
+		Top = Top->nxt_ptr;
+		delete(p);
+	}
+}// Stack in C++ exemple
+
+void Push(Employee *&Top)
+{
+	Employee *new_st;
+	string fn, ln;
+	float s;
+
+	cout << "Enter new employee first name, last name and salary";
+	cin >> fn >> ln >> s;
+
+	// instantiate a new node, use new_st
+	new_st = new Employee;
+	new_st->first_name(fn);
+	new_st->last_name(ln);
+	new_st->salary(s);
+
+	if (Top == NULL)
+		Top = new_st;
+	else
+	{
+		// find the last node, use r for this
+		// write code
+		new_st->nxt_ptr = Top;
+		Top = new_st;
+	} // end of else
+
+}
+
+int main()
+{
+	string fn, ln;
+	float s;
+	ifstream infile;
+	Employee *MyEmployee;
+	Employee *Top = NULL;
+	int option;
+
+	infile.open("Text.txt");
+
+	while (!infile.eof())
+	{
+		infile >> fn >> ln >> s;
+
+		MyEmployee = new Employee;
+		MyEmployee->first_name(fn);
+		MyEmployee->last_name(ln);
+		MyEmployee->salary(s);
+
+		if (Top == NULL)
+			Top = MyEmployee;
+		else
+		{
+			MyEmployee->nxt_ptr = Top;
+			Top = MyEmployee;
+		}
+
+	} //end of loop
+	infile.close();
+
+	option = display_menu();
+
+	while (option != 4)
+	{
+		if (option == 1)
+			Display_Stack(Top);
+
+
+		else if (option == 2)
+			Push(Top);
+		else
+			Pop(Top);
+
+
+		option = display_menu();
+	} // end of loop
+
+	system("pause");
+
+	return 0;
+}
+
+#include <string>
+using namespace std;
+class Employee // this is the name of the class
+{
+public: //type of privacy
+	Employee();// This is the constructor
+
+	void first_name(string fname);
+	string first_name();
+	void last_name(string lname);
+	string last_name();
+	void salary(float s);
+	float salary();
+	Employee *nxt_ptr;
+protected:
+	float m_salary;
+	string m_fn;
+	string m_ln;
+};
+Employee::Employee() // Member functions definitions including constructor
+{
+	nxt_ptr = NULL; // this initialize the next pointer to Null
+}
+void Employee::first_name(string fn)
+{
+	m_fn = fn;
+}
+string Employee::first_name()
+{
+	return m_fn;
+}
+void Employee::last_name(string ln)
+{
+	m_ln = ln;
+}
+string Employee::last_name()
+{
+	return m_ln;
+}
+float Employee::salary()
+{
+	return m_salary;
+}
+void Employee::salary(float s)
+{
+	m_salary = s;
+}
