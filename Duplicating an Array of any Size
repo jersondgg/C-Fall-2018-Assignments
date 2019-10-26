@@ -1,0 +1,79 @@
+Duplicate an Array of any Size 
+#include <iostream>  
+using namespace std; 
+// Function prototype  
+int *duplicateArray(const int *, int); 
+void displayArray(const int[], int); 
+int main() 
+{ 
+    // Define constants for the array sizes.  
+    const int SIZEa = 1, SIZEb = 7, SIZEc = 10; 
+    // Define three arrays of different sizes.  
+    int array1[SIZEa] = { 1000 }; 
+    int array2[SIZEb] = { 100, 200, 300, 400, 500, 600, 700 }; 
+    int array3[SIZEc] = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 }; 
+    // Define three pointers for the duplicate arrays.  
+    int *dup1 = nullptr, *dup2 = nullptr, *dup3 = nullptr; 
+    // Duplicate the arrays.  
+    dup1 = duplicateArray(array1, SIZEa); 
+    dup2 = duplicateArray(array2, SIZEb); 
+  
+    dup3 = duplicateArray(array3, SIZEc); 
+    // Display the original arrays.  
+    cout << "Here are the original array contents:\n"; 
+    displayArray(array1, SIZEa); 
+    displayArray(array2, SIZEb); 
+    displayArray(array3, SIZEc); 
+    // Display the new arrays.  
+  
+    cout << "\nHere are the duplicate arrays: \n"; 
+    displayArray(dup1, SIZEa); 
+    displayArray(dup2, SIZEb); 
+    displayArray(dup3, SIZEc); 
+    // Free the dynamically allocated memory and  
+    // set the pointers to 0.  
+    delete[] dup1; 
+    delete[] dup2; 
+    delete[] dup3; 
+    dup1 = nullptr; 
+    dup2 = nullptr; 
+    dup3 = nullptr; 
+  
+    system("pause"); 
+    return 0; 
+} 
+  
+int *duplicateArray(const int *arr, int size) 
+{ 
+    int *newArray = nullptr; 
+  
+    if (size <= 0) 
+        return nullptr; 
+    // Allocate a new array.  
+    newArray = new int[size]; 
+  
+  
+  
+    for (int index = 0; index < size; index++) 
+        newArray[index] = arr[index]; 
+  
+  
+    // Return a pointer to the new array.  
+  
+    return newArray; 
+} 
+  
+void displayArray(const int arr[], int size) 
+  
+  
+{ 
+    for (int index = 0; index < size; index++) 
+  
+        cout << arr[index] << " "; 
+  
+    cout << endl; 
+  
+} 
+  
+ 
+
