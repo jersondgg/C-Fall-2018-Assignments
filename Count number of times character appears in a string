@@ -1,0 +1,33 @@
+.Count number of times character appears in a string
+#include <iostream>
+using namespace std;
+
+int globalV = 0;
+
+int  countChar(char *p)
+{
+
+	if (*p)
+	{
+		cout << *p << "\n";
+		globalV++;
+		return countChar(p + 1);
+	}
+
+	else
+	{
+		cout << "\nlength = " << globalV << endl;
+		return 0;
+	}
+
+
+}
+
+int main()
+{
+	char line[] = "helloworld";
+	char *ch = line;
+	countChar(ch);
+	system("pause");
+	return 0;
+}
