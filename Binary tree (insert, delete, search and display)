@@ -1,0 +1,315 @@
+1.Insert a node in binary tree
+2.Delete a node from binary tree
+3.Display tree -Preorder,Inorder, Postorder
+4.Search a node in a tree
+
+#include<iostream>
+#include<string>
+#include<iomanip>
+#include<fstream>
+#include "Header.h"
+using namespace std;
+
+
+
+void Search_Tree(student *root, string slname, bool &found_flag)
+{
+	if (root == NULL)
+	{
+		found_flag = false;
+		return;
+	}
+	else if (root->student_last() > slname)
+		Search_Tree(root->lptr, slname, found_flag);
+	else if (root->student_last() < slname)
+		Search_Tree(root->rptr, slname, found_flag);
+	else
+	{
+		found_flag = true;
+		return;
+	}
+}
+
+int Display_Menu()
+{
+	int option;
+
+	cout << "*******************************************" << endl;
+	cout << "1. Display Tree InOrder" << endl;
+	cout << "2. Display Tree Postorder" << endl;
+	cout << "3. Display Tree Preorder" << endl;
+	cout << "4. Search Tree" << endl;
+	cout << "5. Exit" << endl;
+	cout << "6. Add to Tree" << endl;
+	cout << "7. Remove from Tree" << endl;
+	cout << "Enter Menu Item";
+	cin >> option;
+
+	return option;
+}
+
+
+void Search_Tree(student *tree)
+{
+	string lname;
+	bool found_flag;
+
+	cout << endl << endl << "************************" << endl << endl;
+
+	cout << "Enter last name to search for, ctl+z to stop";
+	cin >> lname;
+	while (!cin.eof())
+	{
+		found_flag = false;
+
+		Search_Tree(tree, lname, found_flag);
+
+		if (found_flag == true)
+			cout << lname << " is in the tree" << endl;
+		else
+			cout << lname << " is not in the tree" << endl;
+
+		cout << "Enter last name to search for, ctl+z to stop";
+		cin >> lname;
+	}
+}
+void Delete_Tree(student *&root)
+{
+	student *NodeToDelete = root;
+
+	student *AttachPoint;
+
+	if (root->rptr == NULL)
+		root = root->lptr;   //tree is the node above's tree->Left
+	else if (root->lptr == NULL)
+		root = root->rptr;
+	else
+		// node has two children
+	{
+		AttachPoint = root->rptr;
+		//locate the smallest node in the right subtree
+		//by moving as far left as possible
+
+		while (AttachPoint->lptr != NULL)
+			AttachPoint = AttachPoint->lptr;
+
+		// attach the left subrtree of the original tree
+		// as the left subtree of the smallest node
+		// in the right subtree
+
+		AttachPoint->lptr = root->lptr;
+
+		//replace original tree with its right subtree
+		root = root->rptr;
+
+		//delete original node
+		delete NodeToDelete;
+
+	}
+
+
+}
+void Remove_Tree(student *&root, string lname, float gpa)
+{
+	if (root == NULL) return;
+
+	if (lname < root->student_last())
+		Remove_Tree(root->lptr, lname, gpa);
+	else if (lname > root->student_last())
+		Remove_Tree(root->rptr, lname, gpa);
+	else
+		// We have found the node to delete.
+		Delete_Tree(root);
+}
+
+
+
+void Insert_Tree(student *&root, string lname, int gpa)
+{
+	// check for empty tree
+	if (!root)
+	{
+		root = new student;
+	}
+}
+
+
+
+
+
+
+void Insert_Tree(student *&root, string ln, float gpa){
+	student *n;
+
+	// checks for empty tree 
+	// also used to check for lptr or rptr NULL 
+	if (root == NULL)
+	{
+		// create a new node
+		n = new student;
+		n->student_last(ln);
+		n->student_gpa(gpa);
+		root = n;
+	}
+	else if (ln > root->student_last())  // go right
+	{
+		// use recursion to go right
+		Insert_Tree(root->rptr, ln, gpa);
+	}
+	else if (ln < root->student_last())  // go left
+	{	// use recursion to go left
+		Insert_Tree(root->lptr, ln, gpa);
+	}
+
+	// duplicate node does not get added to the tree
+
+} // end of function
+void InOrder(student *root){
+
+	if (root != NULL)
+	{
+		// go left
+		InOrder(root->lptr);
+		// display
+		cout << setprecision(2) << fixed;
+		cout << root->student_last() << "  " << root->student_gpa() << endl;
+		// go right
+		InOrder(root->rptr);
+	}
+}
+
+//Postorder
+
+void postorder(student *root) {
+	if (root != NULL) {
+		postorder(root->lptr);
+		postorder(root->rptr);
+		cout << root->student_last() << "  " << root->student_gpa() << endl;
+
+
+
+
+	}
+}
+
+/*
+* Pre Order Traversal
+*/
+void printPreorder(student *node)
+{
+	if (node == NULL)
+		return;
+
+	/* first print data of node */
+	cout << node->student_last() << "  " << node->student_gpa() << endl;
+
+	/* then recur on left sutree */
+	printPreorder(node->lptr);
+
+	/* now recur on right subtree */
+	printPreorder(node->rptr);
+}
+
+
+
+
+int main()
+{
+	string ln, lname;
+	float gpa;
+	int option;
+	ifstream infile;
+	student *root = NULL;
+
+	infile.open("Text.txt");
+
+	while (!infile.eof())
+	{
+		infile >> ln >> gpa;
+		Insert_Tree(root, ln, gpa);
+
+	}
+
+	option = Display_Menu();
+
+	while (option != 5)
+	{
+		if (option == 1)
+			InOrder(root);
+		else if (option == 4)
+			Search_Tree(root);
+
+
+		else if (option == 6)
+		{
+			cout << "Enter Last Name and gpa to Insert into the Tree";
+			cin >> ln >> gpa;
+		}
+		else if (option == 7)
+		{
+			cout << "Enter Last Name to Delete";
+			cin >> ln;
+			Remove_Tree(root, ln, gpa);
+		}
+
+		else if (option == 2)
+		{
+			postorder(root);
+		}
+
+		else if (option == 3)
+		{
+			printPreorder(root);
+		}
+		cin.clear();
+		option = Display_Menu();
+	}
+
+
+	//Display_Tree(root);
+
+	system("pause");
+	return 0;
+}
+
+
+
+
+
+#include<string>
+#include <string>
+using namespace std;
+class student {
+public:
+	void student_last(string ln);
+	string student_last();
+	void student_gpa(float);
+	double student_gpa();
+	student();
+	student *lptr;
+	student *rptr;
+
+protected:
+	float m_gpa;
+	string m_last_name;
+};
+student::student(){
+	lptr = NULL;
+	rptr = NULL;
+	m_gpa = 0.0f;
+	m_last_name = "Default";
+}
+void student::student_last(string ln){
+	m_last_name = ln;
+}
+string student::student_last(){
+	return m_last_name;
+}
+void student::student_gpa(float gpa)
+{
+	m_gpa = gpa;
+}
+double student::student_gpa(){
+	return m_gpa;
+}
+
