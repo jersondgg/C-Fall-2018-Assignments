@@ -1,0 +1,40 @@
+Bubble sort
+#include<iostream>
+#include<conio.h>
+ 
+using namespace std;
+ 
+int main() {
+ 
+    int numero[] = {4,3,1,5,2};
+    int i, j, aux;
+ 
+ 
+    //bubble sort algorithm
+    for (i = 0; i < 5; i++) {
+        for (j = 0; j < 5; j++) {
+            if (numero[j] > numero[j + 1]) {
+                aux = numero[j];
+                numero[j] = numero[j + 1];
+                numero[j + 1] = aux;
+            }
+        }
+    }
+    cout << "ascendent order";
+ 
+    for (i = 0; i < 5; i++) {
+        cout << numero[i]<< " "<<endl;
+    }
+ 
+cout<<"descendent Order"<<" ";
+ 
+for(i=4;i>-0; i--){
+    
+    cout<<numero[i]<< " "<<endl;
+    
+}
+ 
+ 
+    getch();
+    return 0;
+}
