@@ -1,0 +1,35 @@
+Linear Search 
+ 
+#include<iostream> 
+  
+using namespace std; 
+  
+int main() 
+{ 
+    int a[20], n, x, i, key = 0; 
+    cout << "Enter the number of desire elements? "; 
+    cin >> n; 
+    cout << "\nEnter elements of the array\n"; 
+  
+    for (i = 0; i<n; ++i) 
+        cin >> a[i]; 
+  
+    cout << "\nEnter element you are looking for:"; 
+    cin >> x; 
+  
+    for (i = 0; i<n; ++i) 
+    { 
+        if (a[i] == x) 
+        { 
+            key = 1; 
+            break; 
+        } 
+    } 
+  
+    if (key) 
+        cout << "\nElement is found in position " << i + 1<<endl; 
+    else 
+        cout << "\nElement not found"; 
+    system("pause"); 
+    return 0; 
+} 
