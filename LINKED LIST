@@ -1,0 +1,178 @@
+LINKED LIST
+//Linke List
+#include<iostream>
+#include<conio.h>
+#include<stdlib.h>
+using namespace std;
+
+struct Nodo {
+
+	int dato;
+	Nodo *siguinte;
+
+
+};
+
+//prototype
+
+void menu();
+void insert(Nodo *&, int);
+void dysplay(Nodo *);
+
+void append(Nodo *, int);
+void remove(Nodo *&, int);
+
+Nodo *lista = NULL;
+
+int main() {
+
+	menu();
+
+	system("pause");
+	return 0;
+}
+
+void menu() {
+	int opcion;
+	int dato;
+	do {
+		cout << "\t. :MENU:.\n";
+		cout << "1. Insert elements to the end of the list\n";
+		cout << "2. Dysplay data\n";
+		cout << "3. insert an element anywhere in the list\n";
+		cout << "4. Delete";
+		cout << "5. Exit ";
+		cin >> opcion;
+
+		switch (opcion) {
+
+		case 1:cout << "\nEnter a Number";
+			cin >> dato;
+			insert(lista, dato);
+			cout << "\n";
+			system("pause");
+
+			break;
+		case 2: dysplay(lista);
+			cout << "\n";
+			system("pause");
+			break;
+
+		case 3: cout << "enter the number you are looking for";
+			cin >> dato;
+			append(lista, dato);
+			cout << "\n";
+			system("pause");
+			break;
+
+		case 4: cout << "\nenter the number you wish to delete";
+			cin >> dato;
+			remove(lista, dato);
+			cout << "\n";
+			system("pause");
+			break;
+
+		}
+		system("cls");
+
+	} while (opcion != 5);
+
+}
+
+void insert(Nodo *&lista, int n) {
+	Nodo *nuevo_nodo = new Nodo();
+	nuevo_nodo->dato = n;
+	Nodo *aux1 = lista;
+	Nodo *aux2 = NULL;
+
+
+	while ((aux1 != NULL) && (aux1->dato < n)) {
+
+		aux2 = aux1;
+		aux1 = aux1->siguinte;
+	}
+
+	if (lista == aux1) {
+		//		lista == nuevo_nodo;
+
+	}
+	else {
+
+		aux2->siguinte = nuevo_nodo;
+	}
+
+	nuevo_nodo->siguinte = aux1;
+	cout << "\tElement " << n << "has been inserted succesfuly";
+}
+void dysplay(Nodo *lista) {
+
+	Nodo *actual = new Nodo();
+	actual = lista;
+
+	while (actual != NULL) {
+
+		cout << actual->dato << " -> ";
+		actual = actual->siguinte;
+
+	}
+
+}
+
+void append(Nodo *lista, int n) {
+	bool band = false;
+
+	Nodo *actual = new Nodo();
+	actual = lista;
+
+	while ((actual != NULL) && (actual->dato <= n)) {
+		if (actual->dato = n) {
+			band = true;
+		}
+
+		actual = actual->siguinte;
+
+	}
+	if (band == true) {
+		cout << "Element " << n << "was found in the list ";
+
+	}
+	else {
+		cout << "element " << n << " does not exist in the list";
+
+	}
+
+}
+
+void remove(Nodo *&lista, int n) {
+
+	if (lista != NULL) {
+		Nodo *auxdelete;
+			Nodo *p = NULL;
+
+		auxdelete = lista;
+		while ((auxdelete != NULL) && (auxdelete->dato != n)) {
+
+			p = auxdelete;
+			auxdelete = auxdelete->siguinte;
+
+		}
+
+		if (auxdelete == NULL) {
+
+			cout << "element does not exist in the list";
+
+
+		}
+
+		else if (auxdelete == NULL) {
+			lista = lista->siguinte;
+			delete auxdelete;
+		}
+		else {
+			p->siguiente = auxdelete->siguinte;
+			delete auxdelete;
+		}
+
+	}
+
+}
